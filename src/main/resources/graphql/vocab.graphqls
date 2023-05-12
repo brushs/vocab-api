@@ -21,4 +21,5 @@ type Term {
 type Query {
   getVocabularies(count: Int, offset: Int): [Vocabulary]
   getTerms(count: Int, offset: Int): [Term]
+  getTermTranslation(termName: String): String!
 }

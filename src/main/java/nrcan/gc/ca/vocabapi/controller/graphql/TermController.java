@@ -19,4 +19,9 @@ public class TermController {
     public List<Term> getTerms(@Argument int count, @Argument int offset) {
         return termService.getTerms();
     }
+
+    @QueryMapping
+    public String getTermTranslation(@Argument String termName) {
+        return termService.getTermTranslation(termName);
+    }
 }
