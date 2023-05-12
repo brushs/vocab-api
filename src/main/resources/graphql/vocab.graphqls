@@ -1,0 +1,24 @@
+type Vocabulary {
+  id: ID!
+  nameEn: String!
+  nameFr: String!
+  descriptionEn: String
+  descriptionFr: String
+}
+
+type Term {
+  id: ID!
+  nameEn: String!
+  nameFr: String!
+  descriptionEn: String
+  descriptionFr: String
+  vocabularyId: Int!
+  vocabulary: Vocabulary
+  parentTermId: Int
+}
+
+# The Root Query for the application
+type Query {
+  getVocabularies(count: Int, offset: Int): [Vocabulary]
+  getTerms(count: Int, offset: Int): [Term]
+}
