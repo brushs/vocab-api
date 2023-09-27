@@ -3,6 +3,7 @@ package nrcan.gc.ca.vocabapi.service;
 import jakarta.persistence.EntityManager;
 import nrcan.gc.ca.vocabapi.model.entity.QTerm;
 import nrcan.gc.ca.vocabapi.model.entity.Term;
+import nrcan.gc.ca.vocabapi.model.entity.Vocabulary;
 import nrcan.gc.ca.vocabapi.model.repository.TermRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ public class TermService {
 
     @Autowired
     private EntityManager entityManager;
+
+    @Autowired
+    private VocabularyService vocabularyService;
 
     @Autowired
     private TermRepository termRepository;
@@ -47,5 +51,31 @@ public class TermService {
         }
 
         return "";
+    }
+
+    public List<Term> getRootTerms(String vocabularyName) {
+
+        Vocabulary vocabulary = vocabularyService.getVocabulary(vocabularyName);
+
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QTerm term = QTerm.term;
+
+        List<Term> roots = queryFactory.selectFrom(term)
+                .where(term.parentTermId.isNull())
+                .fetch();
+
+        return roots;
+    }
+
+    public List<Term> getChildTerms(int parentTermId) {
+
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QTerm term = QTerm.term;
+
+        List<Term> children = queryFactory.selectFrom(term)
+                .where(term.parentTermId.eq(parentTermId))
+                .fetch();
+
+        return children;
     }
 }
