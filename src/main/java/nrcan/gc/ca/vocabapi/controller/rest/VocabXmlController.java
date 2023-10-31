@@ -16,7 +16,7 @@ public class VocabXmlController {
 
     @Autowired
     private ControlledVocabularyXmlService controlledVocabularyXmlService;
-    
+
     @RequestMapping(value = "exportxml", method = RequestMethod.GET)
     public void exportXml(@RequestParam String vocab,
                           @RequestParam List<String> lang,
